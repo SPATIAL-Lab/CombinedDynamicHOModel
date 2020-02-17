@@ -1,6 +1,10 @@
 
 ##### Magozzi and Bowen (2020)
 
+Code for the combined dynamic model by Magozzi et al. In review to predict local among-individual HO isotopic variance. Model files can be found at https://www.dropbox.com/sh/u1chiwsr8hvurxb/AAD-ovOZhdHYHeBKnntbZOZma?dl=0
+
+
+#### model files
 
 
 ### large_data: external input
@@ -24,7 +28,6 @@ raw_stds.xlsx: HO data for lab standards
 Fdata.csv: feather data recalibrated to traditional standards
 
 
-
 ### input_output: intermediate product
 
 ## exp folders: e.g., B1; each contains output from AB model: e.g., B1.csv and B1Parms.csv; and output from phys model: e.g., B1_HO_1, B1_HO_2, …, B1_HO_105
@@ -32,12 +35,14 @@ Fdata.csv: feather data recalibrated to traditional standards
 ## tables; summary tables for each exp, all B and all E exps, E1B1 exps, and all exps and towhee data in the case of random locations
 
 
-
 ### figures: contains figures in the paper saved as pdfs and tiffs 
 
 
+#### model code
+
 
 ### github 
+
 
 ## AB_model
 
@@ -46,6 +51,7 @@ AB_experiments.R, AB_experiments_rl.R: code to run exps with the AB model; the f
 AB_constants.R: AB model constants
 
 AB_function.R, AB_model_rl.R: AB model function; the former assumes equal number of birds nesting at each location, the latter random locations 
+
 
 ## phys_model
 
