@@ -16,7 +16,7 @@ library(SDMTools)
 
 ## Fig. 1 (part 1) 
 
-ut_cnty = readOGR("../data/utahcounty", "utahcounty")
+ut_cnty = readOGR("data/utahcounty", "utahcounty")
 proj4string(ut_cnty) = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 + +towgs84=0,0,0")
 
 slc_lat = 40.758701
@@ -32,7 +32,7 @@ ut_cnty.proj = spTransform(ut_cnty, CRS(utm.proj))
 coords.proj = spTransform(coords, CRS(utm.proj))
 
 
-pdf("../figures/pdf/Fig.1_part1.pdf", height=6, width=6, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.1_part1.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
 plot(ut_cnty.proj)
 #extent(ut_cnty.proj)
@@ -52,14 +52,14 @@ dev.off()
 
 ## Fig. 1 (part 2) 
 
-Habitat = raster("../data/Habitat2.gri")
+Habitat = raster("data/Habitat2.gri")
 
 
 ## coordinates of sampling sites for environmental water, prey, and feathers   
-netCoords = read.table("../data/netCoords.csv", header=TRUE, sep=",")
-streamCoords = read.table("../data/streamCoords.csv", header=TRUE, sep=",")
+netCoords = read.table("data/netCoords.csv", header=TRUE, sep=",")
+streamCoords = read.table("data/streamCoords.csv", header=TRUE, sep=",")
 streamCoords = streamCoords[-2,]
-substrateCoords = read.table("../data/substrateCoords.csv", header=TRUE, sep=",")
+substrateCoords = read.table("data/substrateCoords.csv", header=TRUE, sep=",")
 
 netCoords.sp = netCoords
 coordinates(netCoords.sp) = ~ Lon + Lat
@@ -77,7 +77,7 @@ substrateCoords_proj.sp = spTransform(substrateCoords.sp, CRS=CRS("+proj=utm +zo
 
 
 ## dem model 
-DEM = raster("../data/DEM.tif")
+DEM = raster("data/DEM.tif")
 
 projection(Habitat) = CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 projection(DEM) = CRS("+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
@@ -91,7 +91,7 @@ col.palette = (terrain.colors(12,1))
 Hab.cols = c(col.palette[1],col.palette[5],col.palette[9])
 
 
-pdf("../figures/pdf/Fig.1_part2.pdf", height=6, width=6, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.1_part2.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
 par(mar=c(4,4,3,0))
 
@@ -110,7 +110,7 @@ dev.off()
 
 ## Fig. 2 (main figure) 
 
-meansInd = read.csv("../output/tables/meansInd.B.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd 
 
@@ -143,7 +143,7 @@ NestHabitats = c("B1.RIP", "B1.MEAD", "B1.SLP", "B2A.RIP", "B2A.MEAD", "B2A.SLP"
 Habitats = c("RIP", "MEAD", "SLP")
 
 
-pdf("../figures/pdf/Fig.2_main.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.2_main.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mar=c(6.1, 4.1, 2.1, 6.1), xpd=TRUE)
 
@@ -169,7 +169,7 @@ dev.off()
 
 ## Fig. 3 
 
-pdf("../figures/pdf/Fig.3.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.3.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -189,7 +189,7 @@ dev.off()
 
 ## Fig. 4 
 
-pdf("../figures/pdf/Fig.4.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.4.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -225,7 +225,7 @@ exp.name = c("B1","B2A","B2B","B2C")
 exp.cols = c("black","red","chartreuse4","blue1")
 
 
-pdf("../figures/pdf/Fig.5.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.5.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -259,12 +259,12 @@ dev.off()
 
 ## Fig. 6
 
-meansInd = read.csv("../output/tables/meansInd.E.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd 
 
 
-pdf("../figures/pdf/Fig.6.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.6.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -284,7 +284,7 @@ dev.off()
 
 ## Fig. 7
 
-meansInd = read.csv("../output/tables/meansInd.E.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd 
   
@@ -306,7 +306,7 @@ exp.name = c("E1","E2A","E2B","E2C")
 exp.cols = c("black","red","chartreuse4","blue1")
 
 
-pdf("../figures/pdf/Fig.7.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.7.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -341,7 +341,7 @@ dev.off()
 
 ## Fig. 8: boxplots of squared deviances for all reps from each exp and wild birds 
 
-meansInd = read.csv("../output/tables/meansInd.data_rl.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.data_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -494,7 +494,7 @@ test = rbind(testB1, testB2A, testB2B, testB2C, testE1, testE2A, testE2B, testE2
 test$exp = factor(test$exp, levels=c("B1_rl","B2A_rl","B2B_rl","B2C_rl","E1_rl","E2A_rl","E2B_rl","E2C_rl","E1B1_rl","DATA"))
 
 
-pdf("../figures/pdf/Fig.8.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.8.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -519,13 +519,13 @@ dev.off()
 
 ## Fig. A1 
  
-RBCclass = raster("../data/RBCclass_na.gri")
+RBCclass = raster("data/RBCclass_na.gri")
 
 col.palette = (terrain.colors(12,1))
 VegCover.cols = c(col.palette[9],col.palette[5],col.palette[1],col.palette[7])
 
 
-pdf("../figures/pdf/Fig.A1.pdf", height=6, width=6, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A1.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
 par(mar=c(4,4,3,0))
 
@@ -548,7 +548,7 @@ PercentCoverClass3 = raster::aggregate(hrr, fact, fun=function(x,na.rm=T) {mean(
 PercentCoverClass4 = raster::aggregate(hrr, fact, fun=function(x,na.rm=T) {mean(x==4, na.rm=na.rm)})
 
 
-pdf("../figures/pdf/Fig.A2.pdf", height=6, width=6, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A2.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
 par(mfrow=c(2,2), mar=c(3,3,2,2)) #mgp=c(2.5,1,0)
 
@@ -562,7 +562,7 @@ dev.off()
 
 ## Fig. A3 
 
-HOdata_w = read.csv("../data/water-data.csv")    
+HOdata_w = read.csv("data/water-data.csv")    
 HOdata_insw = HOdata_w[which(HOdata_w$Substrate_type == "P Consumer"),] 
 
 d18Oinsw.RIP = HOdata_insw$d18O[which(HOdata_insw$Habitat == "Riparian")]
@@ -583,7 +583,7 @@ insw = data.frame("d2H"=d2Hinsw, "d18O"=d18Oinsw, "Habitat"=Habitat.insw, "Subst
 insw$Habitat = ordered(insw$Habitat, levels=c("Riparian", "Meadow", "Slope"))
 
 
-pdf("../figures/pdf/Fig.A3.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A3.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -602,7 +602,7 @@ dev.off()
 
 ## Fig. A4
  
-pdf("../figures/pdf/Fig.A4.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A4.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mar=c(4.1, 4.5, 2.1, 2.1))
 
@@ -617,7 +617,7 @@ dev.off()
 
 ## Fig. A5
 
-HOdata_ins = read.xls("../data/HO isotope data_substrates_2.xlsx", sheet =4, header = T)
+HOdata_ins = read.xls("data/HO isotope data_substrates_2.xlsx", sheet =4, header = T)
 
 
 ins = HOdata_ins
@@ -633,7 +633,7 @@ ins2 = rbind(ins.rip, ins.mead, ins.slp)
 ins=ins2
 
 
-pdf("../figures/pdf/Fig.A5.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A5.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -652,11 +652,11 @@ dev.off()
 
 ## Fig. A6
  
-HOoffs = read.xls("../data/HO isotope data_substrates_2.xlsx", sheet = 5, header = T) 
+HOoffs = read.xls("data/HO isotope data_substrates_2.xlsx", sheet = 5, header = T) 
 HOoffs$Habitat = ordered(HOoffs$Habitat, levels=c("SLP.MEAD", "MEAD.RIP", "SLP.RIP"))
 
 
-pdf("../figures/pdf/Fig.A6.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A6.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -675,7 +675,7 @@ dev.off()
 
 ## Fig. A7
 
-HOdata_ew = read.csv("../data/env_water-data.csv")
+HOdata_ew = read.csv("data/env_water-data.csv")
 d18Oew.RIP = HOdata_ew$d18O
 d2Hew.RIP = HOdata_ew$d2H
 
@@ -769,7 +769,7 @@ subs = rbind(ew, insw, ins)
 subs$Habitat = ordered(subs$Habitat, levels=c("RIP", "MEAD", "SLP"))
 
  
-pdf("../figures/pdf/Fig.A7.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.A7.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -787,7 +787,7 @@ dev.off()
 
 ## Fig. B1
  
-meansInd = read.csv("../output/tables/meansInd.B.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
  
@@ -808,7 +808,7 @@ exp.name = c("B1","B2A","B2B","B2C")
 exp.cols = c("black","red","chartreuse4","blue1")
 
 
-pdf("../figures/pdf/Fig.B1.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.B1.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -842,7 +842,7 @@ dev.off()
 
 ## Fig. B2
 
-meansInd = read.csv("../output/tables/meansInd.E.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -865,7 +865,7 @@ exp.name = c("E1","E2A","E2B","E2C")
 exp.cols = c("black","red","chartreuse4","blue1")
 
  
-pdf("../figures/pdf/Fig.B2.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.B2.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -899,7 +899,7 @@ dev.off()
 
 ## Fig. B3
 
-pdf("../figures/pdf/Fig.B3.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("figures/pdf/Fig.B3.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
@@ -934,7 +934,7 @@ dev.off()
 
 ## Table B1
 
-meansInd = read.csv("../output/tables/meansInd.B.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -946,7 +946,7 @@ round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.n
 length(d$Rep[d$exp==exp.name])
 
 
-meansInd = read.csv("../output/tables/meansInd.E.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -960,7 +960,7 @@ length(d$Rep[d$exp==exp.name])
 
 ## Table B2
 
-meansInd = read.csv("../output/tables/meansInd.B_rl.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.B_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -972,7 +972,7 @@ round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.n
 length(d$Rep[d$exp==exp.name])
 
 
-meansInd = read.csv("../output/tables/meansInd.E_rl.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.E_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
@@ -984,7 +984,7 @@ round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.n
 length(d$Rep[d$exp==exp.name])
 
 
-meansInd = read.csv("../output/tables/meansInd.data_rl.csv", header=T, sep=",")
+meansInd = read.csv("output/tables/meansInd.data_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
 
