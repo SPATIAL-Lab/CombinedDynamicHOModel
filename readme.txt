@@ -1,10 +1,10 @@
 
 ##### Magozzi and Bowen (2020) #####
 
-Code for the combined dynamic model by Magozzi et al. In review to predict local among-individual HO isotopic variance.
+Code for the combined dynamic model by Magozzi et al. (in review) to predict local among-individual HO isotopic variance.
 Data files needed to run the scripts can be found at: https://www.dropbox.com/sh/z57sa9ezengplpf/AADKI2F46K1fM-ksjLyL5DxEa?dl=0
 
-Users should download the content of the github repository to their local machine and place in a directory. They should then download the data folder into the same directory that has the 'code' folder 
+Users should download the content of the github repository to their local machine and place in a directory. They should then download the data folder into the same directory that has the 'code' folder.
 
 
 
@@ -41,65 +41,3 @@ Fdata.R: code to recalibrate feather HO isotope data to traditional standards
 
 data_analysis.R: code to produce figures
 
-
-
-#### data ####
-
-Folder with external input (anything not created using the scripts)
-
-utahcounty: shape file of Utah counties 
-
-DEM.tif: digital elevation model
-
-RBCclass_na.grd: spatial distribution of vegetation type class within Red Butte Canyon (RBC) 
-
-Habitat2.grd, FoodM.grd, Water.grd: area files of habitat type class, prey density and water presence in RBC
-
-streamCoords.csv, substrateCoords.csv, netCoords.csv: coordinates of streamwater and prey samples and mist-net locations in RBC 
-
-env_water-data.csv, water-data.csv, HO isotope data_substrates_2.xlsx: HO isotope data for streamwater, prey water and prey biomass 
-
-feather_raw_data_test.xlsx: raw HO data for feathers from hatch-year Spotted Towhees in RBC
-
-raw_stds.xlsx: HO data for lab standards
-
-
-
-#### output ####
-
-Folder with intermediate & final ouput (anything created using the scripts)
-
-
-### B1, B2A, ..., E1, E2A, ..., E1B1 ### 
-
-
-Each folder contain output from AB model for all reps (e.g., B1Parms.csv, B1.csv) and phys model for each rep (e.g., B1_HO_1.csv, ..., B1_HO_n.csv)) for the test with equal number of birds nesting in each habitat type
-
-### B1_rl, B2A_rl, ..., E1_rl, E2A_rl, ..., E1B1_rl ### 
-
-Each folder contain output from AB model for all reps (e.g., B1_rlParms.csv, B1_rl.csv) and phys model for each rep (e.g., B1_rl_HO_1.csv, ..., B1_rl_HO_n.csv)) for the test with random locations
-
-
-### tables ###
-
-Fdata.csv: feather HO data recalibrated to traditional standards using the script "code/data_analysis/Fdata.R"
-
-meansIndB1.csv, meansIndB2A.csv, ..., meansIndE1.csv, meansIndE2A.csv, meansIndE1B1.csv: summary tables with individual average variable values for all reps from each exp with equal number of birds nesting in each habitat type
-
-meansIndB.csv, meansIndE.csv, meansIndE1B1.csv: summary tables with individual average variable values for all reps from all B, E, and E1B1 exps with equal number of birds nesting in each habitat type
-
-
-meansIndB1_rl.csv, meansIndB2A_rl.csv, ..., meansIndE1_rl.csv, meansIndE2A_rl.csv, meansIndE1B1_rl.csv: summary tables with individual average variable values for all reps from each exp with random locations
-
-meansIndB_rl.csv, meansIndE_rl.csv, meansIndE1B1_rl.csv: summary tables with individual average variable values for all reps from all B, E, and E1B1 exps with random locations
-
-meansInd.data_rl.csv: summary table with individual average variable values for all reps from all B, E, and E1B1 exps with random locations and recalibrated feather HO data for hatch-year Spotted Towhees in RBC
-
-
-
-#### figures ####
-
-Folder with figures in the paper (pdf and tiff)
- 
- 
- 
