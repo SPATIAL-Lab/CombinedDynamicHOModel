@@ -7,9 +7,12 @@ library(gdata)
 library(plyr)
 
 
+## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
+
+
 ## rescale fether HO isotope data for spotted towhee to traditional Wassenaar stds based on 'true' values for DS,ORX determined across labs  
 
-HOdata_birds = read.xls("/Users/Sarah/Documents/comb_dyn/paper/github/data_analysis/feather_raw_data_test.xlsx", sheet = 2, header = T) # this version includes year 
+HOdata_birds = read.xls("data/feather_raw_data_test.xlsx", sheet = 2, header = T) # this version includes year 
 HOdata_birds = HOdata_birds[,-4] 
 
 
@@ -22,7 +25,7 @@ d18Otrue_std2 = 23.45 #mean d18O value for ORX at Texas A&M
 d18Otrue_qc = 11.19 #mean d18O value for POW at Texas A&M
 
 
-raw_stds = read.xls("/Users/Sarah/Documents/comb_dyn/paper/github/data_analysis/raw_stds.xlsx", sheet = 1, header = T)
+raw_stds = read.xls("data/raw_stds.xlsx", sheet = 1, header = T)
 
 d2Hraw_std1 = mean(raw_stds$d2H[raw_stds$stdID=="DS"], na.rm=TRUE) #mean d2H value for all of our DS runs 
 d2Hraw_std2 = mean(raw_stds$d2H[raw_stds$stdID=="ORX"], na.rm=TRUE) #mean d2H value for all of our ORX runs
@@ -50,5 +53,5 @@ HOdata_birds$d18O_avg_corr = d18Otrue_sample
 
 HOdata_birds = HOdata_birds[,-c(2,3)]
 
-write.csv(HOdata_birds, "/Users/Sarah/Documents/comb_dyn/paper/github/data_analysis/Fdata.csv")
+write.csv(HOdata_birds, "output/tables/Fdata.csv")
 

@@ -11,38 +11,38 @@ library(foreach)
 library(gdata)
 library(MASS)
 
-## set wd
-setwd("/Users/Sarah/Desktop/CombinedDynamicHOModel/github/phys_model/")
+
+## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
 ## read in parameter and output tables for all birds from AB model   
-ifile = "../../input_output/B1_rl/B1_rl.csv" 
-ifileParms = "../../input_output/B1_rl/B1_rlParms.csv"
+ifile = "output/B1_rl/B1_rl.csv" 
+ifileParms = "output/B1_rl/B1_rlParms.csv"
 Angry_Birds = read.csv(ifile, header=T, sep=",") 
 Angry_BirdsParms = read.csv(ifileParms, header=T, sep=",") 
 Angry_Birds = Angry_Birds[,-1]
 Angry_BirdsParms = Angry_BirdsParms[,-1] 
 
 ## read in HO data for environmental water, prey water and prey in RBC
-source("HO_data.R")
+source("code/phys_model/HO_data.R")
 
 ## read in output from SS phys/food model run for TL 2; assumes initial values for state variables (d2H,d18O res pool and body water) equal to SS values 
-ssBird = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/ssBird.csv")
+ssBird = read.csv("data/ssBird.csv")
 
 ## read in phys/food (HO) model parameters
 exp = "B1_rl"  
 HungerIncreaseNight_all = Angry_BirdsParms$HungerIncreaseNight 
 HungerIncreaseDay_all = Angry_BirdsParms$HungerIncreaseDay  
-source("HO_parameters.R")
+source("code/phys_model/HO_parameters.R")
 
 ## read in phys/food model constants
-source("HO_constants.R")
+source("code/phys_model/HO_constants.R")
 
 ## read in phys/food model functions
-source("HO_functions_rl.R") 
+source("code/phys_model/HO_functions_rl.R") 
  
 ## set filename for output table for individual birds from phys/food model   
-froot = "../../input_output/B1_rl/B1_rl_HO_" 
+froot = "output/B1_rl/B1_rl_HO_" 
 
 
 ## retrive n of reps

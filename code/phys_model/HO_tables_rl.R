@@ -11,18 +11,18 @@ library(RColorBrewer)
 library(sp)
 library(plyr)
 
-## set wd
-setwd("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/")
+
+## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
 ### First, create table for all reps from each exp: e.g., B1
 
 ## read in AB model output; a single data table for all reps
-Angry_Birds = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/B1_rl/B1_rl.csv", header=T, sep=",")
-Angry_BirdsParms = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/B1_rl/B1_rlParms.csv", header=T, sep=",") 
+Angry_Birds = read.csv("output/B1_rl/B1_rl.csv", header=T, sep=",")
+Angry_BirdsParms = read.csv("output/B1_rl/B1_rlParms.csv", header=T, sep=",") 
 
 ## read in phys/food model output; a data table for each rep 
-froot = "/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/B1_rl/B1_rl_HO_" 
+froot = "output/B1_rl/B1_rl_HO_" 
 
 ## create a single data table for all reps
 Reps = c(1:max(Angry_Birds$Rep))
@@ -191,7 +191,7 @@ HomeLocHab = HomeLoc$Habitat
 Dist = 0 
 for (i in Reps) {
 
-Habitat = raster("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/Habitat2.gri")		
+Habitat = raster("data/Habitat2.gri")		
 extent = extent(1-0.5, ncol(Habitat)+0.5, 1-0.5, nrow(Habitat)+0.5)
 extent(Habitat) = extent
  
@@ -301,16 +301,16 @@ meansInd$d18Oin = meansInd$d18Of_avgw*meansInd$pFfO + meansInd$d18Ofw_avgw*means
 
 
 ## write ind. avg. table 
-write.csv(meansInd, file="/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B1_rl.csv")
+write.csv(meansInd, file="output/tables/meansInd.B1_rl.csv")
 
 
 
 ### Then, for data analysis, create tables for all reps from: 1- all B exps, 2- all E exps, 3- E1B1 exp; a table for all reps from all exps + data
 
-meansInd.B1 = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B1_rl.csv", header=T, sep=",")
-meansInd.B2A = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B2A_rl.csv", header=T, sep=",")
-meansInd.B2B = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B2B_rl.csv", header=T, sep=",")
-meansInd.B2C = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B2C_rl.csv", header=T, sep=",")
+meansInd.B1 = read.csv("output/tables/meansInd.B1_rl.csv", header=T, sep=",")
+meansInd.B2A = read.csv("output/tables/meansInd.B2A_rl.csv", header=T, sep=",")
+meansInd.B2B = read.csv("output/tables/meansInd.B2B_rl.csv", header=T, sep=",")
+meansInd.B2C = read.csv("output/tables/meansInd.B2C_rl.csv", header=T, sep=",")
 
 meansInd.B1$exp = rep("B1_rl", length(meansInd.B1$Rep))
 meansInd.B2A$exp = rep("B2A_rl", length(meansInd.B2A$Rep))
@@ -320,13 +320,13 @@ meansInd.B2C$exp = rep("B2C_rl", length(meansInd.B2C$Rep))
 meansInd = rbind(meansInd.B1, meansInd.B2A, meansInd.B2B, meansInd.B2C)
 meansInd = meansInd[,-1]
 
-write.csv(meansInd, file="/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B_rl.csv")
+write.csv(meansInd, file="output/tables/meansInd.B_rl.csv")
 
 
-meansInd.E1 = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E1_rl.csv", header=T, sep=",")
-meansInd.E2A = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E2A_rl.csv", header=T, sep=",")
-meansInd.E2B = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E2B_rl.csv", header=T, sep=",")
-meansInd.E2C = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E2C_rl.csv", header=T, sep=",")
+meansInd.E1 = read.csv("output/tables/meansInd.E1_rl.csv", header=T, sep=",")
+meansInd.E2A = read.csv("output/tables/meansInd.E2A_rl.csv", header=T, sep=",")
+meansInd.E2B = read.csv("output/tables/meansInd.E2B_rl.csv", header=T, sep=",")
+meansInd.E2C = read.csv("output/tables/meansInd.E2C_rl.csv", header=T, sep=",")
 
 meansInd.E1$exp = rep("E1_rl", length(meansInd.E1$Rep))
 meansInd.E2A$exp = rep("E2A_rl", length(meansInd.E2A$Rep))
@@ -336,39 +336,39 @@ meansInd.E2C$exp = rep("E2C_rl", length(meansInd.E2C$Rep))
 meansInd = rbind(meansInd.E1, meansInd.E2A, meansInd.E2B, meansInd.E2C)
 meansInd = meansInd[,-1]
 
-write.csv(meansInd, file="/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E_rl.csv")
+write.csv(meansInd, file="output/tables/meansInd.E_rl.csv")
 
 
-meansInd.E1B1 = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
+meansInd.E1B1 = read.csv("output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
 
 meansInd.E1B1$exp = rep("E1B1_rl", length(meansInd.E1B1$Rep))
 
 meansInd = meansInd.E1B1
 meansInd = meansInd[,-1]
 
-write.csv(meansInd, file="/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E1B1_rl.csv")
+write.csv(meansInd, file="output/tables/meansInd.E1B1_rl.csv")
 
 
-meansInd_B = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.B_rl.csv", header=T, sep=",")
-meansInd_E = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E_rl.csv", header=T, sep=",")
-meansInd_E1B1 = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
+meansInd_B = read.csv("output/tables/meansInd.B_rl.csv", header=T, sep=",")
+meansInd_E = read.csv("output/tables/meansInd.E_rl.csv", header=T, sep=",")
+meansInd_E1B1 = read.csv("output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
 
 meansInd = rbind(meansInd_B, meansInd_E, meansInd_E1B1)
 meansInd = meansInd[,-1]
 d = meansInd
 
-HOdata_birds = read.csv("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/Fdata.csv", header=T, sep=",")
+HOdata_birds = read.csv("output/tables/Fdata.csv", header=T, sep=",")
 
 d_spto = d
-d_spto = d_spto[c(1:length(HOdata_birds[,1])),] #d_spto[c(1:length(HOdata_spto[,1])),]
+d_spto = d_spto[c(1:length(HOdata_birds[,1])),]
 
 d_spto$d2Hbw_avg = NA
 d_spto$d18Obw_avg = NA 
 d_spto$d2Hbw_sd = NA 
 d_spto$d18Obw_sd = NA
 
-d_spto$d2Hker_avg = HOdata_birds$d2H_avg_corr #HOdata_spto$d2H_avg 
-d_spto$d18Oker_avg = HOdata_birds$d18O_avg_corr #HOdata_spto$d18O_avg 
+d_spto$d2Hker_avg = HOdata_birds$d2H_avg_corr 
+d_spto$d18Oker_avg = HOdata_birds$d18O_avg_corr 
 d_spto$d2Hker_sd = NA 
 d_spto$d18Oker_sd = NA
 
@@ -381,10 +381,8 @@ d_spto$exp = "DATA"
 
 d_test = rbind(d,d_spto)
 
-#d_test$exp = ordered(d_test$exp, levels=c("B1_rl","B2A_rl","B2B_rl","B2C_rl","E1_rl","E2A_rl","E2B_rl","E2C_rl","E1B1_rl","DATA"))
-
 d = d_test
 
-write.csv(d, file="/Users/Sarah/Desktop/CombinedDynamicHOModel/input_output/tables/meansInd.data_rl.csv")
+write.csv(d, file="output/tables/meansInd.data_rl.csv")
 
 
