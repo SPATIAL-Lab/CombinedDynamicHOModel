@@ -15,6 +15,11 @@ library(plyr)
 ## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
+## create 'output/tables' folder where summary tables will be saved
+dir.create("output", showWarnings = FALSE)
+dir.create("output/tables", showWarnings = FALSE)
+
+
 ### First, create table for all reps from each exp: e.g., B1
 
 ## read in AB model output; a single data table for all reps

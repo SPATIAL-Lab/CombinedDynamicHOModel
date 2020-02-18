@@ -17,6 +17,13 @@ library(SDMTools)
 ## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
+## create folders for output
+dir.create("figures", showWarnings = FALSE)
+dir.create("figures/pdf", showWarnings = FALSE)
+dir.create("output", showWarnings = FALSE)
+dir.create("output/tables", showWarnings = FALSE)
+
+
 ## Fig. 1 (part 1) 
 
 ut_cnty = readOGR("data/utahcounty", "utahcounty")

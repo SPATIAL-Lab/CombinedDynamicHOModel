@@ -10,6 +10,11 @@ library(plyr)
 ## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
+## create 'output/tables' folder where data table will be saved
+dir.create("output", showWarnings = FALSE)
+dir.create("output/tables", showWarnings = FALSE)
+
+
 ## rescale fether HO isotope data for spotted towhee to traditional Wassenaar stds based on 'true' values for DS,ORX determined across labs  
 
 HOdata_birds = read.xls("data/feather_raw_data_test.xlsx", sheet = 2, header = T) # this version includes year 

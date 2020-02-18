@@ -12,6 +12,30 @@ library(plyr)
 ## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
+## create 'output' folder and exp subfolders where AB model output will be saved
+dir.create("output", showWarnings = FALSE)
+
+dir.create("output/B1", showWarnings = FALSE)
+dir.create("output/B2A", showWarnings = FALSE)
+dir.create("output/B2B", showWarnings = FALSE)
+dir.create("output/B2C", showWarnings = FALSE)
+dir.create("output/E1", showWarnings = FALSE)
+dir.create("output/E2A", showWarnings = FALSE)
+dir.create("output/E2B", showWarnings = FALSE)
+dir.create("output/E2C", showWarnings = FALSE)
+dir.create("output/E1B1", showWarnings = FALSE)
+
+dir.create("output/B1_rl", showWarnings = FALSE)
+dir.create("output/B2A_rl", showWarnings = FALSE)
+dir.create("output/B2B_rl", showWarnings = FALSE)
+dir.create("output/B2C_rl", showWarnings = FALSE)
+dir.create("output/E1_rl", showWarnings = FALSE)
+dir.create("output/E2A_rl", showWarnings = FALSE)
+dir.create("output/E2B_rl", showWarnings = FALSE)
+dir.create("output/E2C_rl", showWarnings = FALSE)
+dir.create("output/E1B1_rl", showWarnings = FALSE)
+
+
 ## set exp name
 exp = "B1" 
 froot = "B1"  
