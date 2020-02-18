@@ -4,7 +4,7 @@
 Code for the combined dynamic model by Magozzi et al. In review to predict local among-individual HO isotopic variance.
 Data files needed to run the scripts can be found at: https://www.dropbox.com/sh/z57sa9ezengplpf/AADKI2F46K1fM-ksjLyL5DxEa?dl=0
 
-Users should download the content of the github repository to their local machine and place in a directory. They should then download the data folder into the same directory that has the 'code' folder. Prior to run the scripts they should create the 'ouput' and 'figures' folders where intermediate & final outputs and figures will be saved, respectively.    
+Users should download the content of the github repository to their local machine and place in a directory. They should then download the data folder into the same directory that has the 'code' folder. Prior to run the scripts they should create the 'ouput' and 'figures' folders (and subfolders) where intermediate & final outputs and figures will be saved, respectively.    
 
 Simulated data used in the paper can be found at: https://www.dropbox.com/sh/u1chiwsr8hvurxb/AAD-ovOZhdHYHeBKnntbZOZma?dl=0 
 
