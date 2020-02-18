@@ -14,6 +14,9 @@ library(rgdal)
 library(SDMTools)
 
 
+## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
+
+
 ## Fig. 1 (part 1) 
 
 ut_cnty = readOGR("data/utahcounty", "utahcounty")
@@ -35,7 +38,6 @@ coords.proj = spTransform(coords, CRS(utm.proj))
 pdf("figures/pdf/Fig.1_part1.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
 plot(ut_cnty.proj)
-#extent(ut_cnty.proj)
 xmin=228583.4 
 xmax=673944.6 
 ymin=4094744 
@@ -283,10 +285,6 @@ dev.off()
 
 
 ## Fig. 7
-
-meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
-meansInd = meansInd[,-1]
-d = meansInd 
   
 yH = d$d2Hker_avg
 yO = d$d18Oker_avg
@@ -338,8 +336,7 @@ for (i in exp.name) {
 dev.off()
 
 
-
-## Fig. 8: boxplots of squared deviances for all reps from each exp and wild birds 
+## Fig. 8
 
 meansInd = read.csv("output/tables/meansInd.data_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
@@ -348,7 +345,7 @@ d = meansInd
 exp.cols = c("grey","red","chartreuse4","blue1", "grey","red","chartreuse4","blue1", "yellow", "white")
 
 
-## calc population variance (/n) 
+## calc population variance 
 test = d[d$exp=="B1_rl",]
 
 mean = mean(test$d2Hker_avg)
@@ -409,7 +406,7 @@ test = d[d$exp=="E1_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
-test$diff_squared = test$diff^2 #this is what we are going to plot 
+test$diff_squared = test$diff^2 
 
 diff_squared_sum = sum(test$diff_squared)
 n = length(test$d2Hker_avg) 
@@ -550,7 +547,7 @@ PercentCoverClass4 = raster::aggregate(hrr, fact, fun=function(x,na.rm=T) {mean(
 
 pdf("figures/pdf/Fig.A2.pdf", height=6, width=6, encoding="WinAnsi.enc")
 
-par(mfrow=c(2,2), mar=c(3,3,2,2)) #mgp=c(2.5,1,0)
+par(mfrow=c(2,2), mar=c(3,3,2,2))
 
 plot(PercentCoverClass1, main = "Class 1 % cover")
 plot(PercentCoverClass2, main = "Class 2 % cover")
@@ -958,6 +955,18 @@ round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.n
 length(d$Rep[d$exp==exp.name])
 
 
+meansInd = read.csv("output/tables/meansInd.E1B1.csv", header=T, sep=",")
+meansInd = meansInd[,-1]
+d = meansInd
+
+exp.name = "E1B1"
+
+round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
+round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
+round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
+length(d$Rep[d$exp==exp.name])
+
+
 ## Table B2
 
 meansInd = read.csv("output/tables/meansInd.B_rl.csv", header=T, sep=",")
@@ -977,6 +986,18 @@ meansInd = meansInd[,-1]
 d = meansInd
 
 exp.name = "E1_rl"
+
+round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
+round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
+round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
+length(d$Rep[d$exp==exp.name])
+
+
+meansInd = read.csv("output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
+meansInd = meansInd[,-1]
+d = meansInd
+
+exp.name = "E1B1_rl"
 
 round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
 round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)

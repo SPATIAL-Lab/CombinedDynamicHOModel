@@ -21,9 +21,9 @@ Night = c(1,2,3,4,5,19,20,21,22,23,24)
 Day = c(6:18)
 
 ## read in habitat, water and food area files
-Habitat = raster("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/Habitat2.gri")  
-Water = raster("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/Water.gri")
-FoodM = raster("/Users/Sarah/Desktop/CombinedDynamicHOModel/large_data/FoodM.gri")
+Habitat = raster("data/Habitat2.gri")  
+Water = raster("data/Water.gri")
+FoodM = raster("data/FoodM.gri")
 
 Habitat = readAll(Habitat)  
 Water = readAll(Water)  

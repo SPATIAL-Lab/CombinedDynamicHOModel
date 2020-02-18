@@ -8,8 +8,8 @@
 library(raster) 
 library(plyr)
 
-## set wd
-setwd("/Users/Sarah/Desktop/CombinedDynamicHOModel/github/AB_model/")
+
+## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
 
 
 ## set exp name
@@ -18,7 +18,7 @@ froot = "B1"
 
 
 ## read in model constants
-source("AB_constants.R")  
+source("code/AB_model/AB_constants.R")  
 
 
 ## restrict start location to the center of habitat area file 
@@ -35,7 +35,7 @@ Start = Habitat.df[(Habitat.df$Lon >= LonWStart & Habitat.df$Lon <= LonEStart & 
 
 
 ## read in model function
-source("AB_function.R") 
+source("code/AB_model/AB_function.R") 
 
 
 ## set start location - equal number of birds nesting in each habitat 
@@ -202,7 +202,7 @@ if (exp == "E1") {
 BirdParms = data.frame("Rep"=c(1:Reps), "ThirstIncreaseNight"=ThirstIncreaseNight, "ThirstIncreaseDay"=ThirstIncreaseDay, "HungerIncreaseNight"=HungerIncreaseNight, "HungerIncreaseDay"=HungerIncreaseDay, 
 "AvEatSuccRate"=AvEatSuccRate, "WeightType1"=WeightType1, "WeightType2"=WeightType2, "WeightType4"=WeightType4, "Search.dist"=Search.dist, "HomeLocHab"=HomeLocHab)
 
-write.csv(BirdParms, paste0(froot,"Parms.csv"))
+write.csv(BirdParms, paste0("output/",exp,"/",froot,"Parms.csv"))
 
 
 ## run model and write df with model results for all reps 
@@ -210,6 +210,6 @@ start.t = proc.time()
 Bird = birds(Reps)
 print(proc.time() - start.t)
 
-write.csv(Bird, paste0(froot,".csv"))
+write.csv(Bird, paste0("output/",exp,"/",froot,".csv"))
 
 
