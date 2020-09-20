@@ -57,8 +57,7 @@ FMR_BMR = 2.91
 aEWL = 0.009
 bEWL = 0.80
 
-# Amount of energy provided by each prey [(mol O2 d^-1) / (Prey d^-1)] = [mol O2 Prey^-1]
-# O2 per prey adjusted to FMR multiplied by 2
+
 BMR = b0 * M^elc * exp(-E/(k*bTk)) # Basal metabolic rate based as a function of body size and temperature [W = J s^-1] # calc from 1&2 but needed here to calc O2 per prey
 
 ## constants but needed here to calc CF ##
@@ -77,16 +76,12 @@ CF = CFcarb*Pcarb + CFprot*Pprot + CFfat*Pfat # calc from 1&2 but needed here to
 BMR_O2 = BMR * (60*60*24/1000) * CF # Basal metabolic rate expressed as [mol O2 d^-1] # calc from 1&2 but needed here to calc O2 per prey 
 FMR = (FMR_BMR * BMR_O2) # Field metabolic rate [mol O2 d^-1] # calc from 1&2 but needed here to calc O2 per prey 
 FMR = FMR *2 #multiply by 2 to rescale to data for songbirds
+FMR = FMR / 24 #Scaled per hour
+FMR = FMR / 5 #scale for nighttime rate for simlicity 
+#(hunger growth = 1 at night)
 
-
-# calcs needed here to calc O2 per prey 
-FMR_hour = FMR / 24
 Day = c(6:18)
 Night = c(1,2,3,4,5,19,20,21,22,23,24) 
-FMRavg = FMR_hour*length(Day) + (FMR_hour/5)*length(Night)
-TargetPrey.no_day = 5*length(Day) + 1*length(Night)
-
-O2_per_prey = FMRavg / TargetPrey.no_day
 
 # Proportion of body mass that is fat (reserves)
 p_reserves = 0.15

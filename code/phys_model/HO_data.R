@@ -6,6 +6,7 @@
 
 ## read in HO data for environmental substrates in RBC
 
+library(openxlsx)
 
 ## environmental water
 HOdata_ew = read.csv("data/env_water-data.csv")
@@ -28,7 +29,7 @@ d18Opw.SLP = HOdata_pw$d18O[which(HOdata_pw$Habitat == "Slope")]
 
 
 ## prey
-HOdata_p = read.xls("data/HO isotope data_substrates_2.xlsx", sheet =4, header = T)
+HOdata_p = read.xlsx("data/HO isotope data_substrates_2.xlsx", sheet =4)
 
 d2Hp.MEAD = HOdata_p$corrd2H_avg
 d18Op.MEAD = HOdata_p$corrd18O_avg
@@ -38,5 +39,4 @@ avgd2Hoff_SM = 34.12
 avgd2Hoff_MR = 8.84
 avgd18Ooff_SM = 3.02
 avgd18Ooff_MR = 4.45
-
 
