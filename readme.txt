@@ -2,10 +2,9 @@
 ##### Magozzi and Bowen (2020) #####
 
 Code for the combined dynamic model by Magozzi et al. (in review) to predict local among-individual HO isotopic variance.
-Data files needed to run the scripts can be found at: https://www.dropbox.com/sh/z57sa9ezengplpf/AADKI2F46K1fM-ksjLyL5DxEa?dl=0
+Data files needed to run the scripts can be found at: https://www.dropbox.com/sh/z57sa9ezengplpf/AADKI2F46K1fM-ksjLyL5DxEa?dl=0 or in the Zenodo archive for this project: https://doi.org/10.5281/zenodo.3673949
 
 Users should download the content of the github repository to their local machine and place in a directory. They should then download the data folder into the same directory that has the 'code' folder.
-
 
 
 #### code ####
