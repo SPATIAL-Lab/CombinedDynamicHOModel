@@ -41,8 +41,10 @@ vignettes/*.pdf
 # Drobox
 desktop.ini
 
-# Project folders
+# Project folders and files
 data/
 figures/
 output/
 paper/
+revision/
+data.zip
