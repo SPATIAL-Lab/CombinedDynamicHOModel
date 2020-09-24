@@ -77,7 +77,7 @@ BMR_O2 = BMR * (60*60*24/1000) * CF # Basal metabolic rate expressed as [mol O2 
 FMR = (FMR_BMR * BMR_O2) # Field metabolic rate [mol O2 d^-1] # calc from 1&2 but needed here to calc O2 per prey 
 FMR = FMR *2 #multiply by 2 to rescale to data for songbirds
 FMR = FMR / 24 #Scaled per hour
-FMR = FMR / 5 #scale for nighttime rate for simlicity 
+#FMR = FMR / 5 #scale for nighttime rate for simlicity 
 #(hunger growth = 1 at night)
 
 Day = c(6:18)

@@ -28,11 +28,11 @@ for(ex in c("B1_rl", "B2A_rl", "B2B_rl", "B2C_rl", "E1_rl", "E2A_rl", "E2B_rl",
   froot.root = paste0("output/", ex, "/", ex)
     
   ## read in AB model output; a single data table for all reps
-  Angry_Birds = read.csv("output/B1_rl/B1_rl.csv", header=T, sep=",")
-  Angry_BirdsParms = read.csv("output/B1_rl/B1_rlParms.csv", header=T, sep=",") 
+  Angry_Birds = read.csv(paste0(froot.root, ".csv"), header=T, sep=",")
+  Angry_BirdsParms = read.csv(paste0(froot.root, "Parms.csv"), header=T, sep=",") 
   
   ## read in phys/food model output; a data table for each rep 
-  froot = "output/B1_rl/B1_rl_HO_" 
+  froot = paste0(froot.root, "_HO_") 
   
   ## create a single data table for all reps
   Reps = c(1:max(Angry_Birds$Rep))

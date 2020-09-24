@@ -107,12 +107,12 @@ HOmodel = function(t, state, parameters) {
   with(as.list(c(state, parameters)), {
   	
     # calcs from 1&2 already done in HO_parameters.R but also needed here 
-   # BMR_O2 = BMR * (60*60*24/1000) * CF
+    #BMR_O2 = BMR * (60*60*24/1000) * CF
     #FMR = (FMR_BMR * BMR_O2)
     #FMR = FMR * 2 #multiplied by 2 to rescale to data for songbirds
-    #FMR = FMR / 24 #Scaled per hour
-    #FMR = FMR / 5 #scale for nighttime rate for simlicity 
-                  #(hunger growth = 1 at night)
+    #FMR = FMR / 24 #Scaled per hour 
+    
+    RMR = FMR /5 #(hunger growth = 1 at night) 
     
     # Parameter values at current timestep
     BS = BSs[t+1]
@@ -131,18 +131,18 @@ HOmodel = function(t, state, parameters) {
       }
     }
     
-    FMR_hour = Metab * FMR
+    MR_hour = Metab * RMR
 
 
     ## Food model ##
     
     # Flux of energy in per hour [(mol O2 Prey^-1)*(Prey h^-1)] = [mol O2 h^-1] 
     # Depends on how much you are eating at current timestep
-    O2in_hour = FMR * Eat.no
+    O2in_hour = RMR * Eat.no
     
     # Flux of energy out per hour [mol O2 hour^-1]
     # Assumed equal to FMR
-    O2out_hour = FMR_hour
+    O2out_hour = MR_hour
     
     
     # HO isotope compositions of prey (diet) [per mil]
@@ -252,11 +252,11 @@ HOmodel = function(t, state, parameters) {
     ## HO model ##
     
     # Flux of metabolically derived H in [mol H2 d^-1]
-    FfH_hour = rH * FMR_hour 
+    FfH_hour = rH * MR_hour 
     
     # Flux of food water in [mol H2O d^-1]
     # Depends on O2in (O2_per_prey*Eat.no)   
-    Ffw_hour = ( (Ms/MwH2O) * (Pw/(1-Pw)) * FMR * Eat.no )
+    Ffw_hour = ( (Ms/MwH2O) * (Pw/(1-Pw)) * RMR * Eat.no )
                 
     # Flux of drinking water in [mol H2O d^-1] 
     # Depends on whether you are drinking at current time step
@@ -295,7 +295,7 @@ HOmodel = function(t, state, parameters) {
     }
     
     # Flux of waste H out [mol H2 d^-1]
-    FwasteH_hour = rHwaste * Pprot * FMR_hour
+    FwasteH_hour = rHwaste * Pprot * MR_hour
     
     # Flux of liquid water out [mol H2O d^-1]
     # Depends on H2
@@ -309,16 +309,16 @@ HOmodel = function(t, state, parameters) {
     Flw_hour = Flw / 24
     
     # Flux of metabolically derived O in [mol O d^-1]
-    FfO_hour = rO * FMR_hour 
+    FfO_hour = rO * MR_hour 
           
     # Flux of inhaled O2 in [mol O d^-1]
-    FO2_hour =  FMR_hour*2
+    FO2_hour =  MR_hour*2
     
     # Flux of waste O out [mol O d^-1]
-    FwasteO_hour = rOwaste * Pprot * FMR_hour
+    FwasteO_hour = rOwaste * Pprot * MR_hour
     
     # Flux of exhaled CO2 [mol O d^-1]
-    FCO2_hour = Rq * (FMR_hour*2) 
+    FCO2_hour = Rq * (MR_hour*2) 
      
     
     # HO isotope compositions of prey water [per mil]
@@ -511,7 +511,7 @@ HOmodel = function(t, state, parameters) {
     		"d18Ores"=R.to.delta(O_18res/(Pcarb+Pfat)/O2,RstandardO), 
     		"d18Oresprot"=R.to.delta(O_18resprot/Pprot/O2,RstandardO)
   		  ), 
-  		c("DrinkYN"=DrinkYN, "FMR"=FMR_hour, "FfH"=FfH_hour, "Ffw"=Ffw_hour, 
+  		c("DrinkYN"=DrinkYN, "FMR"=MR_hour, "FfH"=FfH_hour, "Ffw"=Ffw_hour, 
   		  "Fdw"=Fdw_hour, "Fvw"=Fvw_hour, "FwasteH"=FwasteH_hour, "Flw"=Flw_hour, 
   		  "FfO"=FfO_hour, "FO2"=FO2_hour, "FwasteO"=FwasteO_hour, "FCO2"=FCO2_hour, 
     		"d2Hew"=d2Hew, "d2Hinsw"=d2Hpw, 

@@ -11,7 +11,7 @@ library(plyr)
 library(raster) 
 library(RColorBrewer)
 library(rgdal)
-library(SDMTools)
+##library(SDMTools)
 
 
 ## set wd to the master project directory (i.e., the directory that contains the 'code' and 'data' folders)
@@ -61,7 +61,7 @@ dev.off()
 
 ## Fig. 1 (part 2) 
 
-Habitat = raster("data/Habitat2.gri")
+Habitat = raster("data/Habitat2.gri") 
 
 
 ## coordinates of sampling sites for environmental water, prey, and feathers   
@@ -122,12 +122,13 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd 
+d$ex = factor(d$ex)
 
 
-d.B1 = d[d$exp=="B1",]
-d.B2A = d[d$exp=="B2A",]
-d.B2B = d[d$exp=="B2B",]
-d.B2C = d[d$exp=="B2C",]
+d.B1 = d[d$ex=="B1",]
+d.B2A = d[d$ex=="B2A",]
+d.B2B = d[d$ex=="B2B",]
+d.B2C = d[d$ex=="B2C",]
 
 d.B1.HomeLocHab = aggregate(d.B1[, c("timeRIP","timeMEAD","timeSLP")], list(d.B1$HomeLocHab), mean)
 d.B1.HomeLocHab.m = as.matrix(d.B1.HomeLocHab[,2:4])
@@ -182,15 +183,15 @@ pdf("figures/pdf/Fig.3.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
-boxplot(DrinkYN ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1], Hab.cols[2], Hab.cols[3]),  
+boxplot(DrinkYN ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1], Hab.cols[2], Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab="No. drinking events", cex.axis = 1, cex.lab=1, ylim=c(min(d$DrinkYN),max(d$DrinkYN)) )
 legend("topright", legend=c("Riparian","Meadow","Slope"), fill=Hab.cols, bg="white", bty="n", cex=1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
-boxplot(EatYN ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1], Hab.cols[2], Hab.cols[3]),  
+boxplot(EatYN ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1], Hab.cols[2], Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab="No. feeding events", cex.axis = 1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
 dev.off()
@@ -202,15 +203,15 @@ pdf("figures/pdf/Fig.4.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
-boxplot(d2Hker_avg ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
+boxplot(d2Hker_avg ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{2}, "H (\u2030)")), cex.axis = 1, cex.lab=1, ylim=c(min(d$d2Hker_avg),max(d$d2Hker_avg)) )
 legend("bottomright", legend=c("Riparian","Meadow","Slope"), fill=Hab.cols, bg="white", bty="n", cex=1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
-boxplot(d18Oker_avg ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
+boxplot(d18Oker_avg ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{18}, "O (\u2030)")), cex.axis = 1, cex.lab=1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
 dev.off()
@@ -230,37 +231,39 @@ yhatH = mH$coefficients[1] + mH$coefficients[2]*x1 + mH$coefficients[3]*x2 + res
 yhatO = mO$coefficients[1] + mO$coefficients[2]*x1 + mO$coefficients[3]*x2 + resid(mO) 
 
 
-exp.name = c("B1","B2A","B2B","B2C")
-exp.cols = c("black","red","chartreuse4","blue1")
+ex.name = c("B1","B2A","B2B","B2C")
+ex.cols = c("black","red","chartreuse4","blue1")
 
 
-pdf("figures/pdf/Fig.5.pdf", height=5, width=8, encoding="WinAnsi.enc")
+pdf("/Users/Sarah/Desktop/revisions/figures/pdf/Fig.5.pdf", height=5, width=8, encoding="WinAnsi.enc")
  
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
 resid1 = resid(lm(x1 ~ x2))
 resid2 = resid(lm(yhatH ~ x2)) 
-plot(resid1, resid2, xlab = "Turnover time | pFdw", ylab = expression(paste("Keratin ", delta^{2}, "H | pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = "Turnover time | pFdw", ylab = expression(paste("Keratin ", delta^{2}, "H | pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
-legend("topleft", exp.name, lty=rep(1,3), lwd=rep(2,3), col=exp.cols, bty="n")
+legend("topleft", ex.name, lty=rep(1,3), lwd=rep(2,3), col=ex.cols, bty="n")
 
 resid1 = resid(lm(x1 ~ x2))
 resid2 = resid(lm(yhatO ~ x2)) 
-plot(resid1, resid2, xlab = "Turnover time | pFdw", ylab = expression(paste("Keratin ", delta^{18}, "O | pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = "Turnover time | pFdw", ylab = expression(paste("Keratin ", delta^{18}, "O | pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
 
 dev.off()
@@ -271,21 +274,22 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd 
+d$ex = factor(d$ex)
 
 
 pdf("figures/pdf/Fig.6.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
-boxplot(d2Hker_avg ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
+boxplot(d2Hker_avg ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{2}, "H (\u2030)")), cex.axis = 1, cex.lab=1, ylim=c(min(d$d2Hker_avg),max(d$d2Hker_avg)+8) )
 legend("topleft", legend=c("Riparian","Meadow","Slope"), fill=Hab.cols, bg="white", bty="n", cex=1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
-boxplot(d18Oker_avg ~ HomeLocHab:exp, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
+boxplot(d18Oker_avg ~ HomeLocHab:ex, data=d, col=c(Hab.cols[1],Hab.cols[2],Hab.cols[3]),  
 xaxt='n', xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{18}, "O (\u2030)")), cex.axis = 1, cex.lab=1)
-axis(side=1, at=c(2,5,8,11), labels=unique(d$exp), cex.axis=1)
+axis(side=1, at=c(2,5,8,11), labels=unique(d$ex), cex.axis=1)
 box(lwd=1.25)
 
 dev.off()
@@ -307,8 +311,8 @@ yhatH = mH$coefficients[1] + mH$coefficients[2]*x1H + mH$coefficients[3]*x2 + mH
 yhatO = mO$coefficients[1] + mO$coefficients[2]*x1O + mO$coefficients[3]*x2 + mO$coefficients[4]*x3 + resid(mO)
 
 
-exp.name = c("E1","E2A","E2B","E2C")
-exp.cols = c("black","red","chartreuse4","blue1")
+ex.name = c("E1","E2A","E2B","E2C")
+ex.cols = c("black","red","chartreuse4","blue1")
 
 
 pdf("figures/pdf/Fig.7.pdf", height=5, width=8, encoding="WinAnsi.enc")
@@ -317,27 +321,29 @@ par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
 resid1 = resid(lm(x1H ~ x2 + x3))
 resid2 = resid(lm(yhatH ~ x2 + x3)) 
-plot(resid1, resid2, xlab = expression(paste("Input ", delta^{2}, "H | Turnover time + pFdw")), ylab = expression(paste("Keratin ", delta^{2}, "H | Turnover time + pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("Input ", delta^{2}, "H | Turnover time + pFdw")), ylab = expression(paste("Keratin ", delta^{2}, "H | Turnover time + pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
-legend("topleft", exp.name, lty=rep(1,3), lwd=rep(2,3), col=exp.cols, bty="n")
+legend("topleft", ex.name, lty=rep(1,3), lwd=rep(2,3), col=ex.cols, bty="n")
 
 resid1 = resid(lm(x1O ~ x2 + x3))
 resid2 = resid(lm(yhatO ~ x2 + x3)) 
-plot(resid1, resid2, xlab = expression(paste("Input ", delta^{18}, "O | Turnover time + pFdw")), ylab = expression(paste("Keratin ", delta^{18}, "O | Turnover time + pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("Input ", delta^{18}, "O | Turnover time + pFdw")), ylab = expression(paste("Keratin ", delta^{18}, "O | Turnover time + pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
 
 dev.off()
@@ -348,12 +354,19 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.data_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.cols = c("grey","red","chartreuse4","blue1", "grey","red","chartreuse4","blue1", "yellow", "white")
+ex.name = c("B1_rl","B2A_rl","B2B_rl","B2C_rl",
+             "E1_rl","E2A_rl","E2B_rl","E2C_rl",
+             "E1B1_rl","DATA")
+
+ex.cols = c("grey","red","chartreuse4","blue1", 
+             "grey","red","chartreuse4","blue1", 
+             "yellow", "white")
 
 
 ## calc population variance 
-test = d[d$exp=="B1_rl",]
+test = d[d$ex=="B1_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -367,7 +380,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testB1 = test
 
 
-test = d[d$exp=="B2A_rl",]
+test = d[d$ex=="B2A_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -381,7 +394,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testB2A = test
 
 
-test = d[d$exp=="B2B_rl",]
+test = d[d$ex=="B2B_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -395,7 +408,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testB2B = test
 
 
-test = d[d$exp=="B2C_rl",]
+test = d[d$ex=="B2C_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -409,7 +422,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testB2C = test
 
 
-test = d[d$exp=="E1_rl",]
+test = d[d$ex=="E1_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -423,7 +436,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testE1 = test
 
 
-test = d[d$exp=="E2A_rl",]
+test = d[d$ex=="E2A_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -437,7 +450,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testE2A = test
 
 
-test = d[d$exp=="E2B_rl",]
+test = d[d$ex=="E2B_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -451,7 +464,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testE2B = test
 
 
-test = d[d$exp=="E2C_rl",]
+test = d[d$ex=="E2C_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -465,7 +478,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testE2C = test
 
 
-test = d[d$exp=="E1B1_rl",]
+test = d[d$ex=="E1B1_rl",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -479,7 +492,7 @@ test$diff_squared_d18O = (test$d18Oker_avg - mean(test$d18Oker_avg))^2
 testE1B1 = test
 
 
-test = d[d$exp=="DATA",]
+test = d[d$ex=="DATA",]
 
 mean = mean(test$d2Hker_avg)
 test$diff = test$d2Hker_avg - mean
@@ -495,22 +508,22 @@ testDATA = test
 
 test = rbind(testB1, testB2A, testB2B, testB2C, testE1, testE2A, testE2B, testE2C, testE1B1, testDATA)
 
-test$exp = factor(test$exp, levels=c("B1_rl","B2A_rl","B2B_rl","B2C_rl","E1_rl","E2A_rl","E2B_rl","E2C_rl","E1B1_rl","DATA"))
+test$ex = factor(test$ex, levels=c("B1_rl","B2A_rl","B2B_rl","B2C_rl","E1_rl","E2A_rl","E2B_rl","E2C_rl","E1B1_rl","DATA"))
 
 
 pdf("figures/pdf/Fig.8.pdf", height=5, width=8, encoding="WinAnsi.enc")
 
 par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
-boxplot(diff_squared ~ exp, data=test, col=exp.cols,  
+boxplot(diff_squared ~ ex, data=test, col=ex.cols,  
 xaxt="n", xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{2}, "H squared deviance (\u2030)")), cex.axis = 1, cex.lab=1, outline=F)
 axis(side=1, at=c(1:10), labels=FALSE)
 box(lwd=1.25)
 
 labels=paste(c("B1","B2A","B2B","B2C","E1","E2A","E2B","E2C","E1B1","SPTO"))
-text(x = seq_along(labels), y = par("usr")[3]-9, srt=60, adj=1, xpd=TRUE, labels=labels, cex=0.90)
+text(x = seq_along(labels), y = par("usr")[3]-12, srt=60, adj=1, xpd=TRUE, labels=labels, cex=0.90)
 
-boxplot(diff_squared_d18O ~ exp, data=test, col=exp.cols,  
+boxplot(diff_squared_d18O ~ ex, data=test, col=ex.cols,  
 xaxt="n", xlab="Experiment", ylab=expression(paste("Ind. avg. keratin ", delta^{18}, "O squared deviance (\u2030) ")), cex.axis = 1, cex.lab=1, outline=F)
 axis(side=1, at=c(1:10), labels=FALSE)
 box(lwd=1.25)
@@ -794,6 +807,7 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
  
  
 yH = d$d2Hker_avg
@@ -808,8 +822,8 @@ yhatH = mH$coefficients[1] + mH$coefficients[2]*x1 + mH$coefficients[3]*x2 + res
 yhatO = mO$coefficients[1] + mO$coefficients[2]*x1 + mO$coefficients[3]*x2 + resid(mO) 
 
 
-exp.name = c("B1","B2A","B2B","B2C")
-exp.cols = c("black","red","chartreuse4","blue1")
+ex.name = c("B1","B2A","B2B","B2C")
+ex.cols = c("black","red","chartreuse4","blue1")
 
 
 pdf("figures/pdf/Fig.B1.pdf", height=5, width=8, encoding="WinAnsi.enc")
@@ -818,27 +832,29 @@ par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
 resid1 = resid(lm(x2 ~ x1))
 resid2 = resid(lm(yhatH ~ x1)) 
-plot(resid1, resid2, xlab = "pFdw | Turnover time", ylab = expression(paste("Keratin ", delta^{2}, "H | Turnover time")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = "pFdw | Turnover time", ylab = expression(paste("Keratin ", delta^{2}, "H | Turnover time")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
-legend("topright", exp.name, lty=rep(1,3), lwd=rep(2,3), col=exp.cols, bty="n")
+legend("topright", ex.name, lty=rep(1,3), lwd=rep(2,3), col=ex.cols, bty="n")
 
 resid1 = resid(lm(x2 ~ x1))
 resid2 = resid(lm(yhatO ~ x1)) 
-plot(resid1, resid2, xlab = "pFdw | Turnover time", ylab = expression(paste("Keratin ", delta^{18}, "O | Turnover time")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = "pFdw | Turnover time", ylab = expression(paste("Keratin ", delta^{18}, "O | Turnover time")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
 
 dev.off()
@@ -849,6 +865,7 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
 
 yH = d$d2Hker_avg
@@ -865,8 +882,8 @@ yhatH = mH$coefficients[1] + mH$coefficients[2]*x1H + mH$coefficients[3]*x2 + mH
 yhatO = mO$coefficients[1] + mO$coefficients[2]*x1O + mO$coefficients[3]*x2 + mO$coefficients[4]*x3 + resid(mO)
 
 
-exp.name = c("E1","E2A","E2B","E2C")
-exp.cols = c("black","red","chartreuse4","blue1")
+ex.name = c("E1","E2A","E2B","E2C")
+ex.cols = c("black","red","chartreuse4","blue1")
 
  
 pdf("figures/pdf/Fig.B2.pdf", height=5, width=8, encoding="WinAnsi.enc")
@@ -875,27 +892,29 @@ par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
 resid1 = resid(lm(x2 ~ x1H + x3))
 resid2 = resid(lm(yhatH ~ x1H + x3)) 
-plot(resid1, resid2, xlab = expression(paste("Turnover time | Input ", delta^{2}, "H + pFdw")), ylab = expression(paste("Keratin ", delta^{2}, "H | Input ", delta^{2}, "H + pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("Turnover time | Input ", delta^{2}, "H + pFdw")), ylab = expression(paste("Keratin ", delta^{2}, "H | Input ", delta^{2}, "H + pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
-legend("topleft", exp.name, lty=rep(1,3), lwd=rep(2,3), col=exp.cols, bty="n")
+legend("topleft", ex.name, lty=rep(1,3), lwd=rep(2,3), col=ex.cols, bty="n")
 
 resid1 = resid(lm(x2 ~ x1H + x3))
 resid2 = resid(lm(yhatO ~ x1H + x3)) 
-plot(resid1, resid2, xlab = expression(paste("Turnover time | Input ", delta^{18}, "O + pFdw")), ylab = expression(paste("Keratin ", delta^{18}, "O | Input ", delta^{18}, "O + pFdw")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("Turnover time | Input ", delta^{18}, "O + pFdw")), ylab = expression(paste("Keratin ", delta^{18}, "O | Input ", delta^{18}, "O + pFdw")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
 
 dev.off()
@@ -909,27 +928,29 @@ par(mfrow=c(1,2), oma=c(0,0,0.5,0.5), mar=c(4,4,0.5,0.5), mgp=c(2.5,1,0))
 
 resid1 = resid(lm(x3 ~ x1H + x2))
 resid2 = resid(lm(yhatH ~ x1H + x2)) 
-plot(resid1, resid2, xlab = expression(paste("pFdw | Input ", delta^{2}, "H + Turnover time")), ylab = expression(paste("Keratin ", delta^{2}, "H | Input ", delta^{2}, "H + Turnover time")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("pFdw | Input ", delta^{2}, "H + Turnover time")), ylab = expression(paste("Keratin ", delta^{2}, "H | Input ", delta^{2}, "H + Turnover time")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
-legend("topleft", exp.name, lty=rep(1,3), lwd=rep(2,3), col=exp.cols, bty="n")
+legend("topleft", ex.name, lty=rep(1,3), lwd=rep(2,3), col=ex.cols, bty="n")
 
 resid1 = resid(lm(x3 ~ x1O + x2))
 resid2 = resid(lm(yhatO ~ x1O + x2)) 
-plot(resid1, resid2, xlab = expression(paste("pFdw | Input ", delta^{18}, "O + Turnover time")), ylab = expression(paste("Keratin ", delta^{18}, "O | Input ", delta^{18}, "O + Turnover time")), col=exp.cols[d$exp], pch=16, cex=0.5)
-for (i in exp.name) {
-	x = resid1[d$exp==i]
-	y = resid2[d$exp==i]
+plot(resid1, resid2, xlab = expression(paste("pFdw | Input ", delta^{18}, "O + Turnover time")), ylab = expression(paste("Keratin ", delta^{18}, "O | Input ", delta^{18}, "O + Turnover time")), 
+     col=ex.cols[d$ex], pch=16, cex=0.5)
+for (i in ex.name) {
+	x = resid1[d$ex==i]
+	y = resid2[d$ex==i]
 	fit = lm(y ~ x)
 	xs = range(x)
 	ys = predict(fit, newdata=data.frame(x=xs))
-	lines(xs, ys, lwd=2, col=exp.cols[exp.name==i])
+	lines(xs, ys, lwd=2, col=ex.cols[ex.name==i])
 }
 
 dev.off()
@@ -941,37 +962,40 @@ dev.off()
 meansInd = read.csv("output/tables/meansInd.B.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "B1"
+ex.name = "B1"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 meansInd = read.csv("output/tables/meansInd.E.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "E1"
+ex.name = "E1"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 meansInd = read.csv("output/tables/meansInd.E1B1.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "E1B1"
+ex.name = "E1B1"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 ## Table B2
@@ -979,48 +1003,56 @@ length(d$Rep[d$exp==exp.name])
 meansInd = read.csv("output/tables/meansInd.B_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "B1_rl"
+ex.name = "B1_rl"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(var(d$d2Hker_avg[d$ex==ex.name]),2); round(var(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 meansInd = read.csv("output/tables/meansInd.E_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "E1_rl"
+ex.name = "E1_rl"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(var(d$d2Hker_avg[d$ex==ex.name]),2); round(var(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 meansInd = read.csv("output/tables/meansInd.E1B1_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "E1B1_rl"
+ex.name = "E1B1_rl"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(var(d$d2Hker_avg[d$ex==ex.name]),2); round(var(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
 meansInd = read.csv("output/tables/meansInd.data_rl.csv", header=T, sep=",")
 meansInd = meansInd[,-1]
 d = meansInd
+d$ex = factor(d$ex)
 
-exp.name = "DATA"
+ex.name = "DATA"
 
-round(mean(d$d2Hker_avg[d$exp==exp.name]),2); round(mean(d$d18Oker_avg[d$exp==exp.name]),2)
-round(sd(d$d2Hker_avg[d$exp==exp.name]),2); round(sd(d$d18Oker_avg[d$exp==exp.name]),2)
-round((range(d$d2Hker_avg[d$exp==exp.name])[2] - range(d$d2Hker_avg[d$exp==exp.name])[1]),2); round((range(d$d18Oker_avg[d$exp==exp.name])[2] - range(d$d18Oker_avg[d$exp==exp.name])[1]),2) 
-length(d$Rep[d$exp==exp.name])
+round(mean(d$d2Hker_avg[d$ex==ex.name]),2); round(mean(d$d18Oker_avg[d$ex==ex.name]),2)
+round(var(d$d2Hker_avg[d$ex==ex.name]),2); round(var(d$d18Oker_avg[d$ex==ex.name]),2)
+round(sd(d$d2Hker_avg[d$ex==ex.name]),2); round(sd(d$d18Oker_avg[d$ex==ex.name]),2)
+round((range(d$d2Hker_avg[d$ex==ex.name])[2] - range(d$d2Hker_avg[d$ex==ex.name])[1]),2); round((range(d$d18Oker_avg[d$ex==ex.name])[2] - range(d$d18Oker_avg[d$ex==ex.name])[1]),2) 
+length(d$Rep[d$ex==ex.name])
 
 
